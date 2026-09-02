@@ -2,6 +2,9 @@
   "name": "keg-esop-games",
   "private": true,
   "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build step needed — this is a static site.'"
+  },
   "dependencies": {
     "@netlify/blobs": "^8.1.0"
   }
