@@ -1,15 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Find Your Ownership | KE&amp;G ESOP Games</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Find Your Ownership | KE&amp;G ESOP Games</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="root"></div>
+<!-- React + Babel standalone (no build step, matches KE&G's existing single-file pattern) -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<!-- SheetJS (xlsx) for the employee roster import feature (accepts .csv or .xlsx) -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script>
+  // ─── Storage shim ─────────────────────────────────────────────────
+  // Talks to our Netlify Function backed by Netlify Blobs. get/set/delete/list,
+  // same shape as Claude's artifact window.storage API. Reads are open (the
+  // sign-in page and game hub need them); writes to protected keys
+  // (games:, questions:, employees:) require the admin password, added
+  // automatically once an admin has logged in via window.__ADMIN_PW__.
+  const FN = "/.netlify/functions/storage";
+  async function callFn(params, options) {
+    const qs = new URLSearchParams(params).toString();
+    const res = await fetch(`${FN}?${qs}`, options);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Storage request failed: ${res.status}`);
+    return data;
+  }
+  window.storage = {
+    async get(key) {
+      const data = await callFn({ op: "get", key });
+      if (data.value === null || data.value === undefined) {
+        throw new Error("not found");
+      }
+      return { key, value: data.value, shared: true };
+    },
+    async set(key, value) {
+      const pw = window.__ADMIN_PW__ || "";
+      const data = await callFn({ op: "set", key, pw }, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value }),
+      });
+      return data.ok ? { key, value, shared: true } : null;
+    },
+    async delete(key) {
+      const pw = window.__ADMIN_PW__ || "";
+      const data = await callFn({ op: "delete", key, pw }, { method: "POST" });
+      return data.ok ? { key, deleted: true, shared: true } : null;
+    },
+    async list(prefix) {
+      const data = await callFn({ op: "list", prefix: prefix || "" });
+      return { keys: data.keys || [], prefix, shared: true };
+    },
+    async checkAdminPassword(pw) {
+      const data = await callFn({ op: "auth", pw });
+      return !!data.ok;
+    },
+  };
+</script>
+<script>
+  // Fetch + transform app.jsx manually instead of relying on Babel's
+  // automatic <script src> handling, which is flaky over file:// and
+  // sensitive to unpkg's unpinned @babel/standalone build.
+  //
+  // Guarded against double-injection, and wrapped in an IIFE so top-level
+  // const/let in app.jsx never leaks into global scope.
+  if (!window.__ESOP_APP_LOADED__) {
+    window.__ESOP_APP_LOADED__ = true;
+    fetch("app.jsx")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load app.jsx: ${res.status}`);
+        return res.text();
+      })
+      .then((code) => {
+        const transformed = Babel.transform(code, { presets: ["react"] }).code;
+        const script = document.createElement("script");
+        script.text = `(function(){\n${transformed}\n})();`;
+        document.body.appendChild(script);
+      })
+      .catch((err) => {
+        document.getElementById("root").innerHTML =
+          `<pre style="padding:20px;color:#c0392b;">Failed to load app: ${err.message}</pre>`;
+        console.error(err);
+      });
+  }
+</script>
+</body>
 </html>
