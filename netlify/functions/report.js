@@ -1,5 +1,14 @@
 import { getStore } from '@netlify/blobs'
 
+function getBlobStore() {
+  const siteID = process.env.NETLIFY_SITE_ID
+  const token = process.env.NETLIFY_AUTH_TOKEN
+  if (!siteID || !token) {
+    throw new Error('Missing NETLIFY_SITE_ID or NETLIFY_AUTH_TOKEN environment variables.')
+  }
+  return getStore({ name: 'esop-games', siteID, token })
+}
+
 function json(status, body) {
   return { statusCode: status, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
 }
@@ -13,7 +22,7 @@ export const handler = async (event) => {
   if (pw !== expected) return json(401, { error: 'Incorrect admin password.' })
 
   try {
-    const store = getStore('esop-games')
+    const store = getBlobStore()
 
     const employees = (await store.get('employees:list', { type: 'json' })) || []
     const games = (await store.get('games:list', { type: 'json' })) || []
