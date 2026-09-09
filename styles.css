@@ -1,21 +1,21 @@
 :root {
-  --bg: #0E1B3A;            /* page background — deeper than brand navy, for depth */
-  --panel: #152B5A;         /* sheet/card background — BDL navy */
-  --panel-alt: #1E3466;     /* inputs, hover states, table stripes */
-  --panel-line: #2C4585;    /* borders on dark panels */
-  --blue: #3D5FA8;          /* medium-blue accent, brightened for dark backgrounds */
-  --light-blue: #A3BAD6;    /* labels, secondary accents */
-  --gold: #C9A227;          /* the one bold accent — ownership/value, primary actions */
-  --gold-hover: #E0B92E;
-  --ink: #EEF2FA;           /* primary text on dark backgrounds */
-  --muted: #93A6C7;         /* secondary/description text */
+  --navy: #152B5A;          /* BDL primary — dominant background */
+  --bg: #0F2049;            /* slightly deeper navy for the page behind cards, for depth */
+  --blue: #233E87;          /* BDL secondary — borders, mid-tone accents */
+  --light-blue: #99B2D1;    /* BDL tertiary — subheads, labels, the "pop" color on navy */
+  --panel: #152B5A;         /* card background, same as brand navy */
+  --panel-line: #2C4585;
+  --silver-1: #AEB4BD;      /* brand's 4th swatch — metallic gradient, used sparingly */
+  --silver-2: #F1F2F4;
+  --ink: #F4F7FB;           /* primary text on navy */
+  --muted: #A9BEDB;         /* secondary/description text */
   --danger: #FF9C90;
-  --danger-bg: rgba(255, 91, 74, 0.12);
   --success: #7FE3B4;
 
-  --font-display: 'Barlow', sans-serif;
+  --font-display: 'Barlow', sans-serif;   /* stand-in for Proxima Nova (not web-licensed) */
   --font-body: 'Barlow', sans-serif;
   --font-plate: 'Barlow Condensed', sans-serif;
+  --radius: 14px;
 }
 
 * { box-sizing: border-box; }
@@ -26,10 +26,9 @@ body {
   font-family: var(--font-body);
   color: var(--ink);
   background:
-    radial-gradient(ellipse at top left, rgba(61, 95, 168, 0.18), transparent 55%),
     linear-gradient(var(--bg), var(--bg)),
-    repeating-linear-gradient(0deg, rgba(163,186,214,0.05) 0, rgba(163,186,214,0.05) 1px, transparent 1px, transparent 40px),
-    repeating-linear-gradient(90deg, rgba(163,186,214,0.05) 0, rgba(163,186,214,0.05) 1px, transparent 1px, transparent 40px);
+    repeating-linear-gradient(0deg, rgba(153,178,209,0.06) 0, rgba(153,178,209,0.06) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(90deg, rgba(153,178,209,0.06) 0, rgba(153,178,209,0.06) 1px, transparent 1px, transparent 40px);
   min-height: 100%;
 }
 
@@ -50,7 +49,7 @@ a { color: var(--light-blue); }
 button, input, select, textarea { font-family: inherit; }
 
 button:focus-visible, a:focus-visible, input:focus-visible {
-  outline: 3px solid var(--gold);
+  outline: 3px solid var(--light-blue);
   outline-offset: 2px;
 }
 
@@ -60,10 +59,13 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   padding: 32px 20px 80px;
 }
 
+/* Diamond motif — a quiet nod to the BDL mark, used once, not repeated everywhere */
 .title-block {
-  border: 1.5px solid var(--panel-line);
-  background: var(--panel);
-  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--navy);
+  padding: 24px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -71,21 +73,35 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   margin-bottom: 28px;
 }
 
+.title-block::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  width: 130px;
+  height: 130px;
+  border: 2.5px solid rgba(153,178,209,0.18);
+  transform: translateY(-50%) rotate(45deg);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
 .title-block .mark {
   font-family: var(--font-plate);
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--light-blue);
   font-size: 0.85rem;
+  text-transform: uppercase;
 }
 
-.title-block h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.title-block h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); position: relative; }
 .title-block .subtitle { color: var(--muted); font-weight: 600; font-size: 0.95rem; margin-top: 2px; }
 
 .sheet {
   position: relative;
   background: var(--panel);
-  border: 1.5px solid var(--panel-line);
+  border-radius: var(--radius);
   padding: 22px;
   margin-bottom: 18px;
 }
@@ -94,62 +110,83 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   font-family: var(--font-plate);
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--bg);
-  background: var(--gold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--light-blue);
   display: inline-block;
-  padding: 3px 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.sheet h2 { font-size: 1.35rem; }
+.sheet h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
 .sheet .desc { color: var(--muted); margin-bottom: 16px; }
 
 .stamp {
   position: absolute;
   top: 18px;
   right: 18px;
-  border: 2.5px solid var(--gold);
-  color: var(--gold);
+  border-radius: 999px;
   font-family: var(--font-plate);
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   letter-spacing: 0.06em;
-  padding: 5px 10px;
-  transform: rotate(4deg);
-  border-radius: 3px;
-  background: rgba(201,162,39,0.1);
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1.5px solid var(--light-blue);
+  color: var(--light-blue);
+  background: rgba(153,178,209,0.1);
 }
 
-.stamp.locked { border-color: #5C6A85; color: #93A0BC; background: rgba(147,160,188,0.08); transform: rotate(-3deg); }
-.stamp.done { border-color: var(--light-blue); color: var(--light-blue); background: rgba(163,186,214,0.08); }
+.stamp.locked { border-color: #5C6A85; color: #93A0BC; background: rgba(147,160,188,0.08); }
+.stamp.done {
+  border-color: transparent;
+  color: var(--navy);
+  background: linear-gradient(120deg, var(--silver-1), var(--silver-2));
+}
 
 .btn {
   display: inline-block;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.95rem;
-  padding: 11px 20px;
+  padding: 11px 22px;
   border: none;
+  border-radius: 999px;
   cursor: pointer;
-  background: var(--gold);
-  color: var(--bg);
+  background: var(--light-blue);
+  color: var(--navy);
   transition: background 120ms ease;
 }
 
-.btn:hover { background: var(--gold-hover); }
-.btn.gold { background: var(--gold); color: var(--bg); }
-.btn.gold:hover { background: var(--gold-hover); }
-.btn:disabled { background: #38466E; color: #7788A6; cursor: not-allowed; }
+.btn:hover { background: #AEC3DC; }
+.btn.gold { background: linear-gradient(120deg, var(--silver-1), var(--silver-2)); color: var(--navy); }
+.btn.gold:hover { filter: brightness(1.05); }
+.btn:disabled { background: #38466E; color: #7788A6; }
 .btn.outline { background: transparent; color: var(--light-blue); border: 1.5px solid var(--light-blue); }
-.btn.outline:hover { background: rgba(163,186,214,0.1); }
+.btn.outline:hover { background: rgba(153,178,209,0.1); }
 
 .field { display: block; margin-bottom: 16px; }
-.field label { display: block; font-weight: 600; color: var(--light-blue); margin-bottom: 6px; font-size: 0.92rem; }
+.field label {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--light-blue);
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+}
 .field input, .field select, .field textarea {
   width: 100%;
   padding: 11px 12px;
   border: 1.5px solid var(--panel-line);
-  background: var(--panel-alt);
+  border-radius: 8px;
+  background: #1E3466;
   font-size: 1rem;
   color: var(--ink);
 }
@@ -169,25 +206,38 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   font-weight: 700;
   font-size: 0.95rem;
   border: 1px solid var(--panel-line);
-  background: var(--panel-alt);
+  background: #1E3466;
   color: var(--ink);
   user-select: none;
 }
 
-.grid-cell.selected { background: var(--light-blue); color: var(--bg); }
-.grid-cell.found { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.grid-cell.selected { background: var(--light-blue); color: var(--navy); }
+.grid-cell.found { background: linear-gradient(120deg, var(--silver-1), var(--silver-2)); color: var(--navy); border-color: transparent; }
 .grid-cell.block { background: transparent; border: none; }
 
 table.admin-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.92rem; }
 table.admin-table th, table.admin-table td { border: 1px solid var(--panel-line); padding: 8px 10px; text-align: left; vertical-align: top; color: var(--ink); }
-table.admin-table th { background: var(--panel-alt); color: var(--light-blue); font-weight: 600; }
-table.admin-table tr:nth-child(even) td { background: rgba(163,186,214,0.04); }
+table.admin-table th { background: #1E3466; color: var(--light-blue); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.03em; }
+table.admin-table tr:nth-child(even) td { background: rgba(153,178,209,0.04); }
 
-.top-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: var(--bg); border-bottom: 1.5px solid var(--panel-line); color: var(--ink); }
+.top-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: var(--bg); color: var(--ink); }
 .top-nav a { color: var(--ink); text-decoration: none; font-weight: 600; }
 
 .small-link { font-size: 0.85rem; color: var(--light-blue); cursor: pointer; background: none; border: none; text-decoration: underline; padding: 0; }
 
-.tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--panel-line); }
-.tabs button { background: transparent; border: none; padding: 10px 16px; font-weight: 600; font-family: var(--font-body); color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
-.tabs button.active { color: var(--ink); border-bottom: 3px solid var(--gold); }
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1.5px solid var(--panel-line); }
+.tabs button {
+  background: transparent;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+.tabs button.active { color: var(--light-blue); border-bottom: 3px solid var(--light-blue); }
