@@ -902,9 +902,36 @@ function EmployeesTab() {
   const [employees, setEmployees] = useState([])
   const [status, setStatus] = useState('')
   const [error, setError] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [newName, setNewName] = useState('')
+  const [addBusy, setAddBusy] = useState(false)
 
   async function load() { setEmployees(await getOr('employees:list', [])) }
   useEffect(() => { load() }, [])
+
+  async function handleAddOne(e) {
+    e.preventDefault()
+    const employeeNumber = newNumber.trim()
+    const name = newName.trim()
+    if (!employeeNumber || !name) return
+    setAddBusy(true)
+    setError('')
+    try {
+      const existing = await getOr('employees:list', [])
+      const byNumber = new Map(existing.map((emp) => [emp.employeeNumber, emp]))
+      const alreadyExisted = byNumber.has(employeeNumber)
+      byNumber.set(employeeNumber, { employeeNumber, name })
+      await window.storage.set('employees:list', [...byNumber.values()])
+      setStatus(alreadyExisted ? `Updated ${name}.` : `Added ${name}.`)
+      setNewNumber('')
+      setNewName('')
+      load()
+    } catch (err) {
+      setError(err.message || 'Could not add that employee.')
+    } finally {
+      setAddBusy(false)
+    }
+  }
 
   function handleFile(e) {
     const file = e.target.files[0]
@@ -958,14 +985,30 @@ function EmployeesTab() {
   return (
     <div>
       <div className="sheet">
+        <h2 style={{ fontSize: '1.15rem' }}>Add an employee</h2>
+        <form onSubmit={handleAddOne} style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div className="field" style={{ marginBottom: 0, flex: '1 1 160px' }}>
+            <label htmlFor="newNumber">Employee number</label>
+            <input id="newNumber" value={newNumber} onChange={(e) => setNewNumber(e.target.value)} required />
+          </div>
+          <div className="field" style={{ marginBottom: 0, flex: '2 1 220px' }}>
+            <label htmlFor="newName">Name</label>
+            <input id="newName" value={newName} onChange={(e) => setNewName(e.target.value)} required />
+          </div>
+          <button className="btn" type="submit" disabled={addBusy} style={{ height: 46 }}>
+            {addBusy ? 'Adding…' : 'Add employee'}
+          </button>
+        </form>
+        {status && <p className="success-text">{status}</p>}
+        {error && <p className="error-text">{error}</p>}
+      </div>
+      <div className="sheet">
         <h2 style={{ fontSize: '1.15rem' }}>Bulk upload roster</h2>
         <p className="desc">
           Upload a CSV or Excel file with two columns: <strong>employee number</strong> and <strong>name</strong>.
           The header row can be named anything containing "number" and "name" — matching employee numbers are updated, new ones are added.
         </p>
         <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFile} />
-        {status && <p className="success-text">{status}</p>}
-        {error && <p className="error-text">{error}</p>}
       </div>
       <div className="sheet">
         <h2 style={{ fontSize: '1.15rem' }}>Roster ({employees.length})</h2>
