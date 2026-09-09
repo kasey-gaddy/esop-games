@@ -167,7 +167,7 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 .btn:hover { background: #AEC3DC; }
 .btn.gold { background: linear-gradient(120deg, var(--silver-1), var(--silver-2)); color: var(--navy); }
 .btn.gold:hover { filter: brightness(1.05); }
-.btn:disabled { background: #38466E; color: #7788A6; }
+.btn:disabled { background: #38466E; color: #B7C2DA; }
 .btn.outline { background: transparent; color: var(--light-blue); border: 1.5px solid var(--light-blue); }
 .btn.outline:hover { background: rgba(153,178,209,0.1); }
 
@@ -190,7 +190,7 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   font-size: 1rem;
   color: var(--ink);
 }
-.field input::placeholder, .field textarea::placeholder { color: #6E7FA0; }
+.field input::placeholder, .field textarea::placeholder { color: #8B9DC3; }
 
 .error-text { color: var(--danger); font-weight: 600; font-size: 0.9rem; margin: 8px 0; }
 .success-text { color: var(--success); font-weight: 600; font-size: 0.9rem; margin: 8px 0; }
