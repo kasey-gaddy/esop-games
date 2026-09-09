@@ -33,11 +33,11 @@ const SEED_GAMES = [
   { id: 'trivia', sheet_label: 'GAME 4', title: 'Are You Smarter Than an Employee Owner?', description: 'The grand finale — 15 trivia questions across 3 rounds.', type: 'trivia', sort_order: 4, is_unlocked: false }
 ]
 
-const SEED_QUESTIONS = {
+const SEED_QUESTIONS_KEG = {
   'word-search': [
     'ESOP', 'OWNERSHIP', 'EMPLOYEE OWNER', 'SHARES', 'SHARE VALUE', 'VESTING',
     'RETIREMENT', 'BENEFIT', 'FUTURE', 'GROWTH', 'TEAMWORK', 'SAFETY', 'QUALITY', 'KEG', 'ONE HUNDRED PERCENT'
-  ].map((word, i) => ({ id: `ws-${i + 1}`, order_index: i + 1, payload: { word } })),
+  ].map((word, i) => ({ id: `keg-ws-${i + 1}`, order_index: i + 1, payload: { word } })),
 
   'crossword': [
     ['KE&G is 100% ______ owned.', 'EMPLOYEE'],
@@ -52,7 +52,7 @@ const SEED_QUESTIONS = {
     ['Good decisions about equipment, materials and time can help reduce ______.', 'COSTS'],
     ['Every employee owner can contribute to company success through the ______ of their work.', 'QUALITY'],
     ['Something every employee owner can help build through the ESOP.', 'FUTURE']
-  ].map(([clue, answer], i) => ({ id: `cw-${i + 1}`, order_index: i + 1, payload: { clue, answer } })),
+  ].map(([clue, answer], i) => ({ id: `keg-cw-${i + 1}`, order_index: i + 1, payload: { clue, answer } })),
 
   'myth-or-fact': [
     ["Money is deducted from my paycheck to purchase the shares in my ESOP account.", 'MYTH', "ESOP shares are provided through the company's ESOP. Employees don't purchase those shares through payroll deductions."],
@@ -65,7 +65,7 @@ const SEED_QUESTIONS = {
     ['Employee owners can influence the long-term success of the company through things like safety, productivity, quality and taking care of equipment.', 'FACT', ''],
     ['Vesting and share value mean the same thing.', 'MYTH', "Vesting determines how much of your ESOP account you're entitled to keep when you leave the company. Share value is the value assigned to company stock."],
     ['The ESOP is designed to provide employees with an additional financial benefit for retirement.', 'FACT', '']
-  ].map(([statement, answer, explanation], i) => ({ id: `mf-${i + 1}`, order_index: i + 1, payload: { statement, answer, explanation } })),
+  ].map(([statement, answer, explanation], i) => ({ id: `keg-mf-${i + 1}`, order_index: i + 1, payload: { statement, answer, explanation } })),
 
   'trivia': [
     ['What does ESOP stand for?', ['Employee Savings Ownership Program', 'Employee Stock Ownership Plan', 'Employee Stock Option Program', 'Employer Savings Opportunity Plan'], 1],
@@ -83,7 +83,64 @@ const SEED_QUESTIONS = {
     ['Which of these can affect company performance?', ['Safety', 'Productivity', 'Quality, equipment care and waste', 'All of the above'], 3],
     ['Being an employee owner means:', ['I personally make every company decision.', "I'm guaranteed the stock price will increase.", 'I have a financial interest in the long-term success of the company.', 'My paycheck changes based on the stock price.'], 2],
     ['Who can make a difference in the success of an employee-owned company?', ['Executives', 'Project Managers', 'Superintendents', 'Everyone'], 3]
-  ].map(([question, options, correctIndex], i) => ({ id: `tv-${i + 1}`, order_index: i + 1, payload: { question, options, correctIndex } }))
+  ].map(([question, options, correctIndex], i) => ({ id: `keg-tv-${i + 1}`, order_index: i + 1, payload: { question, options, correctIndex } }))
+}
+
+// Maddux & Sons joined the BDL family of companies in February 2026. Their content
+// swaps out KE&G-specific history (ESOP founding year, tenure, etc. — none of which
+// applies to Maddux) for general BDL/ESOP concepts plus Maddux's own facts.
+const SEED_QUESTIONS_MADDUX = {
+  'word-search': [
+    'ESOP', 'OWNERSHIP', 'EMPLOYEE OWNER', 'SHARES', 'SHARE VALUE', 'VESTING',
+    'RETIREMENT', 'BENEFIT', 'FUTURE', 'GROWTH', 'TEAMWORK', 'SAFETY', 'QUALITY', 'MADDUX', 'ONE HUNDRED PERCENT'
+  ].map((word, i) => ({ id: `mad-ws-${i + 1}`, order_index: i + 1, payload: { word } })),
+
+  'crossword': [
+    ['BDL is 100% ______ owned.', 'EMPLOYEE'],
+    ['The individual units of company ownership allocated to your ESOP account.', 'SHARES'],
+    ['The process of earning your right to the value in your ESOP account over time.', 'VESTING'],
+    ['The value assigned to one share of company stock.', 'SHAREVALUE'],
+    ['An ESOP is designed to help employees build savings for this stage of life.', 'RETIREMENT'],
+    ['Working safely helps protect our people, projects and company ______.', 'PERFORMANCE'],
+    ['ESOP stands for Employee Stock Ownership ______.', 'PLAN'],
+    ['The people who ultimately benefit when an employee-owned company succeeds.', 'EMPLOYEES'],
+    ['The ESOP is one part of your total ______ package.', 'BENEFITS'],
+    ['Good decisions about equipment, materials and time can help reduce ______.', 'COSTS'],
+    ['Every employee owner can contribute to company success through the ______ of their work.', 'QUALITY'],
+    ['Something every employee owner can help build through the ESOP.', 'FUTURE']
+  ].map(([clue, answer], i) => ({ id: `mad-cw-${i + 1}`, order_index: i + 1, payload: { clue, answer } })),
+
+  'myth-or-fact': [
+    ["Money is deducted from my paycheck to purchase the shares in my ESOP account.", 'MYTH', "ESOP shares are provided through the company's ESOP. Employees don't purchase those shares through payroll deductions."],
+    ['BDL Holdings, the parent company of Maddux & Sons, is 100% employee-owned.', 'FACT', ''],
+    ['Maddux & Sons joined the BDL family of companies in February 2026.', 'FACT', ''],
+    ['Being part of an employee-owned company means every employee owns exactly the same number of shares.', 'MYTH', 'The number of shares allocated to individual ESOP accounts can vary.'],
+    ['The value of a share is guaranteed to increase every year.', 'MYTH', 'Share value can increase or decrease based on the independently determined value of the company.'],
+    ['Doing quality work and avoiding unnecessary rework can contribute to company performance.', 'FACT', 'Rework costs time and money. Employee owners can influence company performance through everyday decisions.'],
+    ["The ESOP is separate from my wages.", 'FACT', "Your wages are what you're paid for your work. The ESOP is an additional retirement benefit and part of the bigger picture of your total compensation."],
+    ["If the company has a strong year, every employee automatically receives that year's profit in cash.", 'MYTH', "Employee ownership doesn't mean company profits are automatically divided into cash payments to employees."],
+    ['Employee owners can influence the long-term success of the company through things like safety, productivity, quality and taking care of equipment.', 'FACT', ''],
+    ['Vesting and share value mean the same thing.', 'MYTH', "Vesting determines how much of your ESOP account you're entitled to keep when you leave the company. Share value is the value assigned to company stock."],
+    ['The ESOP is designed to provide employees with an additional financial benefit for retirement.', 'FACT', '']
+  ].map(([statement, answer, explanation], i) => ({ id: `mad-mf-${i + 1}`, order_index: i + 1, payload: { statement, answer, explanation } })),
+
+  'trivia': [
+    ['What does ESOP stand for?', ['Employee Savings Ownership Program', 'Employee Stock Ownership Plan', 'Employee Stock Option Program', 'Employer Savings Opportunity Plan'], 1],
+    ['What percentage of BDL Holdings — the parent company of Maddux & Sons — is employee-owned?', ['25%', '51%', '75%', '100%'], 3],
+    ['When did Maddux & Sons join the BDL family of companies?', ['February 2026', 'June 2024', 'It was a founding company of BDL', 'January 2020'], 0],
+    ['What industry does Maddux & Sons work in?', ['Software development', 'Concrete aggregate', 'Retail', 'Agriculture'], 1],
+    ['As part of BDL, Maddux employees share in company ownership through:', ['Stock options for executives only', 'The ESOP', 'No ownership program', 'A retirement account they set up themselves'], 1],
+    ['How much money do employees contribute from their paycheck to purchase ESOP shares?', ['$25 per paycheck', '1% of wages', '3% of wages', '$0'], 3],
+    ['What does "vesting" relate to?', ['Your hourly wage', 'Your job title', 'Your ownership of the value in your ESOP account', 'Your health insurance'], 2],
+    ['What determines the value of the shares held by the ESOP?', ['Employees vote on the price', 'The President chooses it', 'It automatically increases every year', 'Company value is determined through an independent valuation process'], 3],
+    ["Can a company's share value go down?", ['Yes', 'No'], 0],
+    ['The ESOP should be considered part of your:', ['Regular paycheck', 'Overtime pay', 'Overall benefits and retirement package', 'Per diem'], 2],
+    ['A crew completes something incorrectly and has to redo the work. What does that potentially affect?', ['Labor costs', 'Material costs', 'Schedule/productivity', 'All of the above'], 3],
+    ['Which employee is thinking most like an owner?', ['"It\'s not my equipment, so it doesn\'t matter."', '"Someone else will clean it up."', '"If I see something that could cost us time or money, I should speak up."', '"Safety is the safety department\'s job."'], 2],
+    ['Which of these can affect company performance?', ['Safety', 'Productivity', 'Quality, equipment care and waste', 'All of the above'], 3],
+    ['Being an employee owner means:', ['I personally make every company decision.', "I'm guaranteed the stock price will increase.", 'I have a financial interest in the long-term success of the company.', 'My paycheck changes based on the stock price.'], 2],
+    ['Who can make a difference in the success of an employee-owned company?', ['Executives', 'Project Managers', 'Superintendents', 'Everyone'], 3]
+  ].map(([question, options, correctIndex], i) => ({ id: `mad-tv-${i + 1}`, order_index: i + 1, payload: { question, options, correctIndex } }))
 }
 
 // ─── Word search generator ──────────────────────────────────────────────
@@ -315,12 +372,16 @@ function WordSearchGame({ questions, onFinish }) {
       setFoundIds(newFoundIds)
       if (newFoundIds.length === placements.length) {
         setFinished(true)
-        onFinish({ correct: newFoundIds.length, total: placements.length })
+        onFinish({ correct: newFoundIds.length, total: placements.length }, [])
       }
     }
   }
 
-  function giveUp() { setFinished(true); onFinish({ correct: foundIds.length, total: placements.length }) }
+  function giveUp() {
+    setFinished(true)
+    const notFound = placements.filter((p) => !foundIds.includes(p.id)).map((p) => p.id)
+    onFinish({ correct: foundIds.length, total: placements.length }, notFound)
+  }
 
   return (
     <div className="sheet">
@@ -401,6 +462,7 @@ function CrosswordGame({ questions, onFinish }) {
   function handleSubmit() {
     setChecked(true)
     let correct = 0
+    const wrongIds = []
     placements.forEach((p) => {
       let match = true
       for (let i = 0; i < p.answer.length; i++) {
@@ -409,8 +471,9 @@ function CrosswordGame({ questions, onFinish }) {
         if (userGrid[r][c] !== p.answer[i]) match = false
       }
       if (match) correct++
+      else wrongIds.push(p.id)
     })
-    onFinish({ correct, total: placements.length })
+    onFinish({ correct, total: placements.length }, wrongIds)
   }
 
   const numberAt = {}
@@ -472,6 +535,7 @@ function MythFactGame({ questions, onFinish }) {
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [score, setScore] = useState(0)
+  const [wrongIds, setWrongIds] = useState([])
   const [done, setDone] = useState(false)
   const q = questions[index]
   const isLast = index === questions.length - 1
@@ -480,10 +544,11 @@ function MythFactGame({ questions, onFinish }) {
     if (selected) return
     setSelected(answer)
     if (answer === q.payload.answer) setScore((s) => s + 1)
+    else setWrongIds((ids) => [...ids, q.id])
   }
 
   function next() {
-    if (isLast) { setDone(true); onFinish({ correct: score, total: questions.length }); return }
+    if (isLast) { setDone(true); onFinish({ correct: score, total: questions.length }, wrongIds); return }
     setIndex((i) => i + 1)
     setSelected(null)
   }
@@ -526,6 +591,7 @@ function TriviaGame({ questions, onFinish }) {
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [score, setScore] = useState(0)
+  const [wrongIds, setWrongIds] = useState([])
   const [done, setDone] = useState(false)
   const q = questions[index]
   const isLast = index === questions.length - 1
@@ -534,10 +600,11 @@ function TriviaGame({ questions, onFinish }) {
     if (selected != null) return
     setSelected(i)
     if (i === q.payload.correctIndex) setScore((s) => s + 1)
+    else setWrongIds((ids) => [...ids, q.id])
   }
 
   function next() {
-    if (isLast) { setDone(true); onFinish({ correct: score, total: questions.length }); return }
+    if (isLast) { setDone(true); onFinish({ correct: score, total: questions.length }, wrongIds); return }
     setIndex((i) => i + 1)
     setSelected(null)
   }
@@ -591,6 +658,7 @@ async function getOr(key, fallback) {
 // ─── Sign-in page ────────────────────────────────────────────────────────
 
 function SignIn({ onSignedIn, onGoAdmin }) {
+  const [company, setCompany] = useState(null)
   const [employeeNumber, setEmployeeNumber] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState('')
@@ -608,7 +676,7 @@ function SignIn({ onSignedIn, onGoAdmin }) {
         setError("We couldn't find a match for that employee number and name. Check your entry and try again.")
         return
       }
-      const employee = { id: match.employeeNumber, employeeNumber: match.employeeNumber, name: match.name }
+      const employee = { id: match.employeeNumber, employeeNumber: match.employeeNumber, name: match.name, company }
       saveEmployee(employee)
       onSignedIn(employee)
     } catch (err) {
@@ -621,22 +689,38 @@ function SignIn({ onSignedIn, onGoAdmin }) {
   return (
     <div className="shell" style={{ maxWidth: 480, paddingTop: 60 }}>
       <div className="title-block" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-        <span className="mark">KE&amp;G · EMPLOYEE OWNERSHIP MONTH</span>
+        <span className="mark">EMPLOYEE OWNERSHIP MONTH</span>
         <h1>Find Your Ownership</h1>
         <p className="subtitle">Sign in with your employee number and name to play.</p>
       </div>
-      <form onSubmit={handleSubmit} className="sheet">
-        <div className="field">
-          <label htmlFor="employeeNumber">Employee number</label>
-          <input id="employeeNumber" value={employeeNumber} onChange={(e) => setEmployeeNumber(e.target.value)} autoComplete="off" required />
+
+      {!company ? (
+        <div className="sheet">
+          <h2 style={{ fontSize: '1.1rem' }}>Which company are you with?</h2>
+          <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+            <button className="btn" style={{ flex: 1 }} onClick={() => setCompany('keg')}>KE&amp;G</button>
+            <button className="btn" style={{ flex: 1 }} onClick={() => setCompany('maddux')}>Maddux</button>
+          </div>
         </div>
-        <div className="field">
-          <label htmlFor="name">Full name</label>
-          <input id="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" required />
-        </div>
-        {error && <p className="error-text">{error}</p>}
-        <button className="btn" type="submit" disabled={loading}>{loading ? 'Checking…' : 'Sign in'}</button>
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="sheet">
+          <p className="desc" style={{ marginBottom: 16 }}>
+            Signing in as <strong>{company === 'keg' ? 'KE&G' : 'Maddux'}</strong> —{' '}
+            <button type="button" className="small-link" onClick={() => setCompany(null)}>change</button>
+          </p>
+          <div className="field">
+            <label htmlFor="employeeNumber">Employee number</label>
+            <input id="employeeNumber" value={employeeNumber} onChange={(e) => setEmployeeNumber(e.target.value)} autoComplete="off" required />
+          </div>
+          <div className="field">
+            <label htmlFor="name">Full name</label>
+            <input id="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" required />
+          </div>
+          {error && <p className="error-text">{error}</p>}
+          <button className="btn" type="submit" disabled={loading}>{loading ? 'Checking…' : 'Sign in'}</button>
+        </form>
+      )}
+
       <p style={{ textAlign: 'center', marginTop: 24 }}>
         <button className="small-link" onClick={onGoAdmin}>Admin login</button>
       </p>
@@ -677,7 +761,7 @@ function Hub({ employee, onSignOut, onPlay }) {
       <div className="shell">
         <div className="title-block">
           <div>
-            <span className="mark">KE&amp;G · EMPLOYEE OWNERSHIP MONTH</span>
+            <span className="mark">EMPLOYEE OWNERSHIP MONTH</span>
             <h1>Find Your Ownership</h1>
           </div>
         </div>
@@ -722,7 +806,7 @@ function GamePlayer({ employee, gameId, onBack }) {
         const g = games.find((x) => x.id === gameId)
         if (!g) { setError('Game not found.'); return }
         if (!g.is_unlocked) { setError('This game is not unlocked yet.'); return }
-        const qs = await getOr(`questions:${gameId}`, [])
+        const qs = await getOr(`questions:${gameId}:${employee.company}`, [])
         setQuestions(qs.sort((a, b) => a.order_index - b.order_index))
         setGame(g)
       } catch (err) {
@@ -734,15 +818,17 @@ function GamePlayer({ employee, gameId, onBack }) {
     load()
   }, [gameId])
 
-  async function handleFinish(score) {
+  async function handleFinish(score, wrongIds) {
     setFinalScore(score)
     setFinished(true)
     try {
       await window.storage.set(`completions:${employee.employeeNumber}:${gameId}`, {
         employeeNumber: employee.employeeNumber,
         gameId,
+        company: employee.company,
         correct: score.correct,
         total: score.total,
+        wrongIds: wrongIds || [],
         completedAt: new Date().toISOString()
       })
     } catch {
@@ -829,7 +915,7 @@ function AdminLogin({ onAuthed }) {
   return (
     <div className="shell" style={{ maxWidth: 420, paddingTop: 60 }}>
       <div className="title-block" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-        <span className="mark">KE&amp;G · ADMIN</span>
+        <span className="mark">BDL · ADMIN</span>
         <h1>Admin login</h1>
       </div>
       <form className="sheet" onSubmit={(e) => { e.preventDefault(); tryAuth(pw) }}>
@@ -865,8 +951,11 @@ function GamesTab() {
     setBusy(true)
     try {
       await window.storage.set('games:list', SEED_GAMES)
-      for (const gameId of Object.keys(SEED_QUESTIONS)) {
-        await window.storage.set(`questions:${gameId}`, SEED_QUESTIONS[gameId])
+      for (const gameId of Object.keys(SEED_QUESTIONS_KEG)) {
+        await window.storage.set(`questions:${gameId}:keg`, SEED_QUESTIONS_KEG[gameId])
+      }
+      for (const gameId of Object.keys(SEED_QUESTIONS_MADDUX)) {
+        await window.storage.set(`questions:${gameId}:maddux`, SEED_QUESTIONS_MADDUX[gameId])
       }
       await load()
     } catch (err) {
@@ -1083,6 +1172,7 @@ function QuestionsTab() {
   const [games, setGames] = useState([])
   const [gameId, setGameId] = useState('')
   const [gameType, setGameType] = useState('')
+  const [company, setCompany] = useState('keg')
   const [questions, setQuestions] = useState([])
   const [error, setError] = useState('')
 
@@ -1095,10 +1185,10 @@ function QuestionsTab() {
     load()
   }, [])
 
-  async function loadQuestions(id) {
-    try { setQuestions(await getOr(`questions:${id}`, [])) } catch (err) { setError(err.message) }
+  async function loadQuestions(id, comp) {
+    try { setQuestions(await getOr(`questions:${id}:${comp}`, [])) } catch (err) { setError(err.message) }
   }
-  useEffect(() => { if (gameId) loadQuestions(gameId) }, [gameId])
+  useEffect(() => { if (gameId) loadQuestions(gameId, company) }, [gameId, company])
 
   function selectGame(id) {
     setGameId(id)
@@ -1107,8 +1197,8 @@ function QuestionsTab() {
 
   async function saveAll(next) {
     try {
-      await window.storage.set(`questions:${gameId}`, next)
-      loadQuestions(gameId)
+      await window.storage.set(`questions:${gameId}:${company}`, next)
+      loadQuestions(gameId, company)
     } catch (err) { setError(err.message) }
   }
 
@@ -1134,11 +1224,20 @@ function QuestionsTab() {
   return (
     <div>
       <div className="sheet">
-        <div className="field">
-          <label>Game</label>
-          <select value={gameId} onChange={(e) => selectGame(e.target.value)}>
-            {games.map((g) => <option key={g.id} value={g.id}>{g.sheet_label} — {g.title}</option>)}
-          </select>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 4 }}>
+          <div className="field" style={{ flex: 2 }}>
+            <label>Game</label>
+            <select value={gameId} onChange={(e) => selectGame(e.target.value)}>
+              {games.map((g) => <option key={g.id} value={g.id}>{g.sheet_label} — {g.title}</option>)}
+            </select>
+          </div>
+          <div className="field" style={{ flex: 1 }}>
+            <label>Company</label>
+            <select value={company} onChange={(e) => setCompany(e.target.value)}>
+              <option value="keg">KE&amp;G</option>
+              <option value="maddux">Maddux</option>
+            </select>
+          </div>
         </div>
         {games.length === 0 && <p className="desc">Load the default games from the Games tab first.</p>}
         {error && <p className="error-text">{error}</p>}
@@ -1151,7 +1250,16 @@ function QuestionsTab() {
   )
 }
 
-function CompletionsTab() {
+function questionLabel(gameType, payload) {
+  if (!payload) return '(deleted question)'
+  if (gameType === 'word_search') return payload.word
+  if (gameType === 'crossword') return payload.clue
+  if (gameType === 'myth_fact') return payload.statement
+  if (gameType === 'trivia') return payload.question
+  return '(unknown)'
+}
+
+function DashboardTab() {
   const [report, setReport] = useState(null)
   const [error, setError] = useState('')
 
@@ -1172,9 +1280,11 @@ function CompletionsTab() {
   function exportCsv() {
     if (!report) return
     const games = [...report.games].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
-    const rows = [['Employee #', 'Name', ...games.map((g) => g.title)]]
+    const rows = [['Employee #', 'Name', 'Company', ...games.map((g) => g.title)]]
     report.employees.forEach((emp) => {
-      const row = [emp.employeeNumber, emp.name]
+      const empCompletions = report.completions.filter((c) => c.employeeNumber === emp.employeeNumber)
+      const company = empCompletions[0] ? (empCompletions[0].company === 'maddux' ? 'Maddux' : 'KE&G') : ''
+      const row = [emp.employeeNumber, emp.name, company]
       games.forEach((g) => {
         const c = report.completions.find((c) => c.employeeNumber === emp.employeeNumber && c.gameId === g.id)
         row.push(c ? `${c.correct}/${c.total}` : '')
@@ -1195,27 +1305,136 @@ function CompletionsTab() {
 
   const games = [...report.games].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
 
+  // Engagement: unique employees with at least 1 completion, split by company.
+  const employeeCompanies = new Map() // employeeNumber -> company (from their most recent completion)
+  report.completions.forEach((c) => employeeCompanies.set(c.employeeNumber, c.company))
+  const participants = [...employeeCompanies.keys()]
+  const kegParticipants = participants.filter((e) => employeeCompanies.get(e) === 'keg').length
+  const madduxParticipants = participants.filter((e) => employeeCompanies.get(e) === 'maddux').length
+
+  // Per-game completion counts, split by company.
+  const perGame = games.map((g) => {
+    const rows = report.completions.filter((c) => c.gameId === g.id)
+    return {
+      game: g,
+      total: rows.length,
+      keg: rows.filter((c) => c.company === 'keg').length,
+      maddux: rows.filter((c) => c.company === 'maddux').length
+    }
+  })
+
+  // Commonly missed questions: tally wrongIds per game+company, resolve text via questionsByKey.
+  const missedByGame = games.map((g) => {
+    const tally = new Map() // `${company}::${questionId}` -> count
+    report.completions
+      .filter((c) => c.gameId === g.id)
+      .forEach((c) => {
+        (c.wrongIds || []).forEach((qid) => {
+          const key = `${c.company}::${qid}`
+          tally.set(key, (tally.get(key) || 0) + 1)
+        })
+      })
+    const rows = [...tally.entries()]
+      .map(([key, count]) => {
+        const [company, qid] = key.split('::')
+        const pool = (report.questionsByKey && report.questionsByKey[`${g.id}:${company}`]) || []
+        const q = pool.find((x) => x.id === qid)
+        return { company, count, label: questionLabel(g.type, q && q.payload) }
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5)
+    return { game: g, rows }
+  })
+
   return (
-    <div className="sheet">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '1.15rem' }}>Completions</h2>
-        <button className="btn outline" onClick={exportCsv}>Export CSV</button>
+    <div>
+      <div className="sheet">
+        <h2 style={{ fontSize: '1.15rem' }}>Engagement</h2>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', marginTop: 12 }}>
+          <div>
+            <div style={{ fontSize: '2rem', fontWeight: 900 }}>{participants.length}</div>
+            <div className="desc" style={{ marginBottom: 0 }}>employees have played at least one game</div>
+          </div>
+          <div>
+            <div style={{ fontSize: '2rem', fontWeight: 900 }}>{kegParticipants}</div>
+            <div className="desc" style={{ marginBottom: 0 }}>KE&amp;G participants</div>
+          </div>
+          <div>
+            <div style={{ fontSize: '2rem', fontWeight: 900 }}>{madduxParticipants}</div>
+            <div className="desc" style={{ marginBottom: 0 }}>Maddux participants</div>
+          </div>
+        </div>
       </div>
-      <table className="admin-table">
-        <thead><tr><th>Employee #</th><th>Name</th>{games.map((g) => <th key={g.id}>{g.sheet_label}</th>)}</tr></thead>
-        <tbody>
-          {report.employees.map((emp) => (
-            <tr key={emp.employeeNumber}>
-              <td>{emp.employeeNumber}</td>
-              <td>{emp.name}</td>
-              {games.map((g) => {
-                const c = report.completions.find((c) => c.employeeNumber === emp.employeeNumber && c.gameId === g.id)
-                return <td key={g.id}>{c ? '✓' : ''}</td>
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <div className="sheet">
+        <h2 style={{ fontSize: '1.15rem' }}>Completions by game</h2>
+        <table className="admin-table">
+          <thead><tr><th>Game</th><th>Total</th><th>KE&amp;G</th><th>Maddux</th></tr></thead>
+          <tbody>
+            {perGame.map((row) => (
+              <tr key={row.game.id}>
+                <td>{row.game.sheet_label} — {row.game.title}</td>
+                <td>{row.total}</td>
+                <td>{row.keg}</td>
+                <td>{row.maddux}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="sheet">
+        <h2 style={{ fontSize: '1.15rem' }}>Commonly missed questions</h2>
+        <p className="desc">Top misses per game (word search shows words most often not found).</p>
+        {missedByGame.map(({ game, rows }) => (
+          <div key={game.id} style={{ marginBottom: 18 }}>
+            <div className="sheet-number">{game.sheet_label} — {game.title}</div>
+            {rows.length === 0 ? (
+              <p className="desc" style={{ margin: '4px 0 0' }}>No misses recorded yet.</p>
+            ) : (
+              <table className="admin-table" style={{ marginTop: 6 }}>
+                <thead><tr><th>Question</th><th>Company</th><th>Times missed</th></tr></thead>
+                <tbody>
+                  {rows.map((r, i) => (
+                    <tr key={i}>
+                      <td>{r.label}</td>
+                      <td>{r.company === 'maddux' ? 'Maddux' : 'KE&G'}</td>
+                      <td>{r.count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="sheet">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h2 style={{ fontSize: '1.15rem' }}>Completions by employee</h2>
+          <button className="btn outline" onClick={exportCsv}>Export CSV</button>
+        </div>
+        <table className="admin-table">
+          <thead><tr><th>Employee #</th><th>Name</th><th>Company</th>{games.map((g) => <th key={g.id}>{g.sheet_label}</th>)}</tr></thead>
+          <tbody>
+            {report.employees.map((emp) => {
+              const empCompletions = report.completions.filter((c) => c.employeeNumber === emp.employeeNumber)
+              const company = empCompletions[0] ? empCompletions[0].company : null
+              return (
+                <tr key={emp.employeeNumber}>
+                  <td>{emp.employeeNumber}</td>
+                  <td>{emp.name}</td>
+                  <td>{company ? (company === 'maddux' ? 'Maddux' : 'KE&G') : '—'}</td>
+                  {games.map((g) => {
+                    const c = report.completions.find((c) => c.employeeNumber === emp.employeeNumber && c.gameId === g.id)
+                    return <td key={g.id}>{c ? '✓' : ''}</td>
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
@@ -1225,20 +1444,20 @@ function AdminDashboard({ onSignOut }) {
   return (
     <div>
       <div className="top-nav">
-        <span>KE&amp;G Admin</span>
+        <span>ESOP Games Admin</span>
         <button className="small-link" style={{ color: 'white' }} onClick={onSignOut}>Sign out</button>
       </div>
       <div className="shell">
         <div className="title-block"><h1 style={{ fontSize: '1.6rem' }}>Game administration</h1></div>
         <div className="tabs">
-          {['games', 'employees', 'questions', 'completions'].map((t) => (
+          {['games', 'employees', 'questions', 'dashboard'].map((t) => (
             <button key={t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>{t[0].toUpperCase() + t.slice(1)}</button>
           ))}
         </div>
         {tab === 'games' && <GamesTab />}
         {tab === 'employees' && <EmployeesTab />}
         {tab === 'questions' && <QuestionsTab />}
-        {tab === 'completions' && <CompletionsTab />}
+        {tab === 'dashboard' && <DashboardTab />}
       </div>
     </div>
   )
