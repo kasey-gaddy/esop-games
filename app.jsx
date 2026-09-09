@@ -807,6 +807,10 @@ function GamePlayer({ employee, gameId, onBack }) {
         if (!g) { setError('Game not found.'); return }
         if (!g.is_unlocked) { setError('This game is not unlocked yet.'); return }
         const qs = await getOr(`questions:${gameId}:${employee.company}`, [])
+        if (qs.length === 0) {
+          setError('No questions have been loaded for this game yet. Ask your admin to load default content in the admin panel.')
+          return
+        }
         setQuestions(qs.sort((a, b) => a.order_index - b.order_index))
         setGame(g)
       } catch (err) {
