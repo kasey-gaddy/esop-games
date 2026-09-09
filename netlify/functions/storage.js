@@ -1,5 +1,14 @@
 import { getStore } from '@netlify/blobs'
 
+function getBlobStore() {
+  const siteID = process.env.NETLIFY_SITE_ID
+  const token = process.env.NETLIFY_AUTH_TOKEN
+  if (!siteID || !token) {
+    throw new Error('Missing NETLIFY_SITE_ID or NETLIFY_AUTH_TOKEN environment variables.')
+  }
+  return getStore({ name: 'esop-games', siteID, token })
+}
+
 const ADMIN_PREFIXES = ['games:', 'questions:', 'employees:']
 
 function isProtected(key) {
@@ -24,7 +33,7 @@ export const handler = async (event) => {
 
   let store
   try {
-    store = getStore('esop-games')
+    store = getBlobStore()
   } catch (err) {
     return json(500, { error: err.message || 'Could not reach storage.' })
   }
