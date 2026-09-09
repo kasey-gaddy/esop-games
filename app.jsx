@@ -350,9 +350,9 @@ function WordSearchGame({ questions, onFinish }) {
       <div className="badge-row">
         {placements.map((p) => (
           <span key={p.id} style={{
-            fontSize: '0.85rem', padding: '4px 10px', border: '1.5px solid #233E87',
-            color: foundIds.includes(p.id) ? '#fff' : '#233E87',
-            background: foundIds.includes(p.id) ? '#233E87' : 'transparent',
+            fontSize: '0.85rem', padding: '4px 10px', border: '1.5px solid #99B2D1',
+            color: foundIds.includes(p.id) ? '#152B5A' : '#99B2D1',
+            background: foundIds.includes(p.id) ? '#99B2D1' : 'transparent',
             textDecoration: foundIds.includes(p.id) ? 'line-through' : 'none'
           }}>{p.word}</span>
         ))}
@@ -429,11 +429,16 @@ function CrosswordGame({ questions, onFinish }) {
                 const isWrong = checked && userGrid[r][c] !== cell
                 return (
                   <div key={c} style={{ position: 'relative' }}>
-                    {num && <span style={{ position: 'absolute', top: 1, left: 2, fontSize: 9, color: '#233E87', fontWeight: 700 }}>{num}</span>}
+                    {num && <span style={{ position: 'absolute', top: 1, left: 1, fontSize: 8, fontWeight: 700, color: '#152B5A', background: '#99B2D1', borderRadius: 2, padding: '0 2px', lineHeight: '1.3' }}>{num}</span>}
                     <input
                       ref={(el) => (inputRefs.current[`${r},${c}`] = el)}
                       className="grid-cell"
-                      style={{ padding: 0, textAlign: 'center', background: isCorrect ? '#C9A227' : isWrong ? '#f6dede' : 'white' }}
+                      style={{
+                        padding: 0,
+                        textAlign: 'center',
+                        background: isCorrect ? '#99B2D1' : isWrong ? '#4A2320' : '#1E3466',
+                        color: isCorrect ? '#152B5A' : isWrong ? '#FF9C90' : '#F4F7FB'
+                      }}
                       maxLength={1}
                       value={userGrid[r][c]}
                       disabled={checked}
@@ -493,10 +498,10 @@ function MythFactGame({ questions, onFinish }) {
         {['MYTH', 'FACT'].map((opt) => {
           const isChosen = selected === opt
           const isRight = opt === q.payload.answer
-          let bg = 'transparent', color = '#233E87', border = '#233E87'
+          let bg = 'transparent', color = '#99B2D1', border = '#99B2D1'
           if (selected) {
-            if (isRight) { bg = '#233E87'; color = '#fff' }
-            else if (isChosen && !isRight) { bg = '#f6dede'; color = '#a4302a'; border = '#a4302a' }
+            if (isRight) { bg = '#233E87'; color = '#fff'; border = '#233E87' }
+            else if (isChosen && !isRight) { bg = '#4A2320'; color = '#FF9C90'; border = '#FF9C90' }
           }
           return (
             <button key={opt} onClick={() => choose(opt)} disabled={!!selected} className="btn"
@@ -547,10 +552,10 @@ function TriviaGame({ questions, onFinish }) {
         {q.payload.options.map((opt, i) => {
           const isChosen = selected === i
           const isRight = i === q.payload.correctIndex
-          let bg = 'transparent', color = '#101826', border = '#A3BAD6'
+          let bg = 'transparent', color = '#F4F7FB', border = '#99B2D1'
           if (selected != null) {
             if (isRight) { bg = '#233E87'; color = '#fff'; border = '#233E87' }
-            else if (isChosen && !isRight) { bg = '#f6dede'; color = '#a4302a'; border = '#a4302a' }
+            else if (isChosen && !isRight) { bg = '#4A2320'; color = '#FF9C90'; border = '#FF9C90' }
           }
           return (
             <button key={i} onClick={() => choose(i)} disabled={selected != null}
