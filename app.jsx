@@ -371,6 +371,9 @@ function CrosswordGame({ questions, onFinish }) {
   const entries = useMemo(() => questions.map((q) => ({ id: q.id, clue: q.payload.clue, answer: q.payload.answer })), [questions])
   const { grid, rows, cols, placements } = useMemo(() => generateCrossword(entries), [entries])
   const [userGrid, setUserGrid] = useState(() => Array.from({ length: rows }, () => Array(cols).fill('')))
+  useEffect(() => {
+    setUserGrid(Array.from({ length: rows }, () => Array(cols).fill('')))
+  }, [rows, cols])
   const [checked, setChecked] = useState(false)
   const inputRefs = useRef({})
 
@@ -714,9 +717,9 @@ function GamePlayer({ employee, gameId, onBack }) {
         const g = games.find((x) => x.id === gameId)
         if (!g) { setError('Game not found.'); return }
         if (!g.is_unlocked) { setError('This game is not unlocked yet.'); return }
-        setGame(g)
         const qs = await getOr(`questions:${gameId}`, [])
         setQuestions(qs.sort((a, b) => a.order_index - b.order_index))
+        setGame(g)
       } catch (err) {
         setError(err.message || 'Could not load this game.')
       } finally {
