@@ -13,6 +13,9 @@ function json(status, body) {
   return { statusCode: status, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
 }
 
+const GAME_IDS = ['word-search', 'crossword', 'myth-or-fact', 'trivia']
+const COMPANIES = ['keg', 'maddux']
+
 export const handler = async (event) => {
   const params = event.queryStringParameters || {}
   const pw = params.pw
@@ -32,7 +35,14 @@ export const handler = async (event) => {
       await Promise.all(blobs.map((b) => store.get(b.key, { type: 'json' })))
     ).filter(Boolean)
 
-    return json(200, { employees, games, completions })
+    const questionsByKey = {}
+    for (const g of GAME_IDS) {
+      for (const c of COMPANIES) {
+        questionsByKey[`${g}:${c}`] = (await store.get(`questions:${g}:${c}`, { type: 'json' })) || []
+      }
+    }
+
+    return json(200, { employees, games, completions, questionsByKey })
   } catch (err) {
     return json(500, { error: err.message || 'Could not build the report.' })
   }
